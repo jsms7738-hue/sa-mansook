@@ -1,16 +1,16 @@
 {
   "overall": {
-    "total": 392944,
-    "pass": 392944,
+    "total": 405492,
+    "pass": 405492,
     "fail": 0,
     "pass_rate": 100.0,
-    "efficiency": 116.93,
+    "efficiency": 116.57,
     "summary_models": [
       {
         "name": "L55S7_FVD Person (3IN1 완제품 적용)",
         "code": "SSMDPH00721",
         "st": 2.64,
-        "total": 38628
+        "total": 39228
       },
       {
         "name": "L65S7_HVD PERSON",
@@ -19,16 +19,16 @@
         "total": 31242
       },
       {
+        "name": "Display SMPS;L65S7_HVD",
+        "code": "FSMDPVD0856M",
+        "st": 2.61,
+        "total": 29108
+      },
+      {
         "name": "Display SMPS;L55S7_HVD",
         "code": "FSMDPVD0846M",
         "st": 2.27,
         "total": 28898
-      },
-      {
-        "name": "Display SMPS;L65S7_HVD",
-        "code": "FSMDPVD0856M",
-        "st": 2.61,
-        "total": 25500
       },
       {
         "name": "Display SMPS;L55S6_FVD (RADIAL)",
@@ -73,28 +73,28 @@
         "total": 13100
       },
       {
+        "name": "Display SMPS;L55S7N_HVD",
+        "code": "FSMDPVD0874M",
+        "st": 2.27,
+        "total": 12864
+      },
+      {
         "name": "Display SMPS;L55SC9NA_HVD",
         "code": "FSMDPVD0840M",
         "st": 3.67,
         "total": 11999
       },
       {
-        "name": "Display SMPS;L55S7N_HVD",
-        "code": "FSMDPVD0874M",
-        "st": 2.27,
-        "total": 11150
-      },
-      {
         "name": "Display SMPS;L65S80NA_HVD (RADIAL2)",
         "code": "FSMDPVD0895M",
         "st": 3.29,
-        "total": 10000
+        "total": 11025
       },
       {
         "name": "Display SMPS;L65SC9NA_HVD",
         "code": "FSMDPVD0882M",
         "st": 3.71,
-        "total": 9200
+        "total": 10215
       },
       {
         "name": "Display SMPS;L75SC9NA_HVD",
@@ -121,6 +121,12 @@
         "total": 7200
       },
       {
+        "name": "Display SMPS; L55S7N_FVD",
+        "code": "FSMDPVD0783M",
+        "st": 2.63,
+        "total": 6986
+      },
+      {
         "name": "Display SMPS;L75S80NA_HVD (RADIAL2)",
         "code": "FSMDPVD0897M",
         "st": 3.48,
@@ -133,22 +139,16 @@
         "total": 5500
       },
       {
+        "name": "Display SMPS;L85S80NA_HVD (RADIAL2)",
+        "code": "FSMDPVD0899M",
+        "st": 3.76,
+        "total": 4800
+      },
+      {
         "name": "Display SMPS;L55S6A_FVD (RADIAL)",
         "code": "FSMDPVD0822M",
         "st": 2.86,
         "total": 4696
-      },
-      {
-        "name": "Display SMPS; L55S7N_FVD",
-        "code": "FSMDPVD0783M",
-        "st": 2.63,
-        "total": 4400
-      },
-      {
-        "name": "Display SMPS;L85S80NA_HVD (RADIAL2)",
-        "code": "FSMDPVD0899M",
-        "st": 3.76,
-        "total": 4000
       },
       {
         "name": "Display SMPS;L98S80NA_FDY",
@@ -211,6 +211,12 @@
         "total": 2992
       },
       {
+        "name": "L55S7N_FVD Person (3IN1 완제품 적용)",
+        "code": "SSMDPH00730",
+        "st": 2.64,
+        "total": 2716
+      },
+      {
         "name": "Display SMPS;L65S7N_HVD",
         "code": "FSMDPVD0889M",
         "st": 2.61,
@@ -239,12 +245,6 @@
         "code": "FSMDPVD0682M",
         "st": 5.41,
         "total": 2000
-      },
-      {
-        "name": "L55S7N_FVD Person (3IN1 완제품 적용)",
-        "code": "SSMDPH00730",
-        "st": 2.64,
-        "total": 1516
       },
       {
         "name": "Display SMPS;L75S80NW_HVD (RADIAL2)",
@@ -335,8 +335,8 @@
   "lines": [
     {
       "line_id": "MPDA",
-      "total": 61747,
-      "pass": 61747,
+      "total": 63511,
+      "pass": 63511,
       "fail": 0,
       "pass_rate": 100.0,
       "models": [
@@ -376,12 +376,12 @@
           "name": "Display SMPS;L65S7_HVD",
           "code": "FSMDPVD0856M",
           "st": 2.61,
-          "total": 22100,
-          "pass": 22100,
+          "total": 23864,
+          "pass": 23864,
           "fail": 0,
           "pass_rate": 100.0,
           "manpower": 17.0,
-          "efficiency": 117.27,
+          "efficiency": 117.31,
           "worst1_step": ""
         },
         {
@@ -885,6 +885,33 @@
               "pass_rate": 100.0,
               "manpower": 17.0,
               "efficiency": 116.42
+            }
+          ]
+        },
+        {
+          "date": "3월 18일",
+          "total": 1764,
+          "pass": 1764,
+          "fail": 0,
+          "pass_rate": 100.0,
+          "std_labor": 4604.0,
+          "actual_labor": 3910.0,
+          "efficiency": 117.9,
+          "fail_details": {
+            "models": {},
+            "steps": {}
+          },
+          "model_stats": [
+            {
+              "name": "Display SMPS;L65S7_HVD",
+              "code": "FSMDPVD0856M",
+              "st": 2.61,
+              "total": 1764,
+              "pass": 1764,
+              "fail": 0,
+              "pass_rate": 100.0,
+              "manpower": 17.0,
+              "efficiency": 117.9
             }
           ]
         }
@@ -1449,9 +1476,25 @@
           "fail": 0,
           "pass_rate": 100.0,
           "efficiency": 103.6
+        },
+        {
+          "time_slot": "3월 18일 A(08:00~10:00)",
+          "total": 894,
+          "pass": 894,
+          "fail": 0,
+          "pass_rate": 100.0,
+          "efficiency": 114.4
+        },
+        {
+          "time_slot": "3월 18일 B(10:10~12:00)",
+          "total": 870,
+          "pass": 870,
+          "fail": 0,
+          "pass_rate": 100.0,
+          "efficiency": 121.4
         }
       ],
-      "efficiency": 119.35,
+      "efficiency": 119.32,
       "weekly_trend": [
         {
           "week": "Week 1",
@@ -1874,8 +1917,8 @@
         },
         {
           "week": "Week 3",
-          "total": 8800,
-          "pass": 8800,
+          "total": 10564,
+          "pass": 10564,
           "fail": 0,
           "pass_rate": 100.0,
           "days": [
@@ -1943,6 +1986,33 @@
                   "efficiency": 116.42
                 }
               ]
+            },
+            {
+              "date": "3월 18일",
+              "total": 1764,
+              "pass": 1764,
+              "fail": 0,
+              "pass_rate": 100.0,
+              "std_labor": 4604.0,
+              "actual_labor": 3910.0,
+              "efficiency": 117.9,
+              "fail_details": {
+                "models": {},
+                "steps": {}
+              },
+              "model_stats": [
+                {
+                  "name": "Display SMPS;L65S7_HVD",
+                  "code": "FSMDPVD0856M",
+                  "st": 2.61,
+                  "total": 1764,
+                  "pass": 1764,
+                  "fail": 0,
+                  "pass_rate": 100.0,
+                  "manpower": 17.0,
+                  "efficiency": 117.9
+                }
+              ]
             }
           ]
         }
@@ -1950,8 +2020,8 @@
     },
     {
       "line_id": "MPDB",
-      "total": 20616,
-      "pass": 20616,
+      "total": 22460,
+      "pass": 22460,
       "fail": 0,
       "pass_rate": 100.0,
       "models": [
@@ -2019,12 +2089,12 @@
           "name": "Display SMPS;L65S7_HVD",
           "code": "FSMDPVD0856M",
           "st": 2.61,
-          "total": 3400,
-          "pass": 3400,
+          "total": 5244,
+          "pass": 5244,
           "fail": 0,
           "pass_rate": 100.0,
-          "manpower": 16.5,
-          "efficiency": 104.58,
+          "manpower": 16.7,
+          "efficiency": 104.41,
           "worst1_step": ""
         },
         {
@@ -2483,6 +2553,33 @@
               "efficiency": 104.58
             }
           ]
+        },
+        {
+          "date": "3월 18일",
+          "total": 1844,
+          "pass": 1844,
+          "fail": 0,
+          "pass_rate": 100.0,
+          "std_labor": 4813.0,
+          "actual_labor": 4420.0,
+          "efficiency": 104.07,
+          "fail_details": {
+            "models": {},
+            "steps": {}
+          },
+          "model_stats": [
+            {
+              "name": "Display SMPS;L65S7_HVD",
+              "code": "FSMDPVD0856M",
+              "st": 2.61,
+              "total": 1844,
+              "pass": 1844,
+              "fail": 0,
+              "pass_rate": 100.0,
+              "manpower": 17.0,
+              "efficiency": 104.07
+            }
+          ]
         }
       ],
       "hourly_trend": [
@@ -2765,9 +2862,25 @@
           "fail": 0,
           "pass_rate": 100.0,
           "efficiency": 107.5
+        },
+        {
+          "time_slot": "3월 18일 A(08:00~10:00)",
+          "total": 962,
+          "pass": 962,
+          "fail": 0,
+          "pass_rate": 100.0,
+          "efficiency": 94.55
+        },
+        {
+          "time_slot": "3월 18일 기타(12:00)",
+          "total": 882,
+          "pass": 882,
+          "fail": 0,
+          "pass_rate": 100.0,
+          "efficiency": 123.1
         }
       ],
-      "efficiency": 151.95,
+      "efficiency": 148.53,
       "weekly_trend": [
         {
           "week": "Week 1",
@@ -3157,8 +3270,8 @@
         },
         {
           "week": "Week 3",
-          "total": 3400,
-          "pass": 3400,
+          "total": 5244,
+          "pass": 5244,
           "fail": 0,
           "pass_rate": 100.0,
           "days": [
@@ -3188,6 +3301,33 @@
                   "efficiency": 104.58
                 }
               ]
+            },
+            {
+              "date": "3월 18일",
+              "total": 1844,
+              "pass": 1844,
+              "fail": 0,
+              "pass_rate": 100.0,
+              "std_labor": 4813.0,
+              "actual_labor": 4420.0,
+              "efficiency": 104.07,
+              "fail_details": {
+                "models": {},
+                "steps": {}
+              },
+              "model_stats": [
+                {
+                  "name": "Display SMPS;L65S7_HVD",
+                  "code": "FSMDPVD0856M",
+                  "st": 2.61,
+                  "total": 1844,
+                  "pass": 1844,
+                  "fail": 0,
+                  "pass_rate": 100.0,
+                  "manpower": 17.0,
+                  "efficiency": 104.07
+                }
+              ]
             }
           ]
         }
@@ -3195,8 +3335,8 @@
     },
     {
       "line_id": "MPDC",
-      "total": 55972,
-      "pass": 55972,
+      "total": 57772,
+      "pass": 57772,
       "fail": 0,
       "pass_rate": 100.0,
       "models": [
@@ -3209,6 +3349,7 @@
         "Display SMPS;P17020S_BDY(R.D)",
         "Display SMPS;P22020_CDY",
         "Display SMPS;P32E8_ADY(REV R.F)",
+        "L55S7N_FVD Person (3IN1 완제품 적용)",
         "L55S7_FVD Person (3IN1 완제품 적용)",
         "OA SMPS;D3013_FDY"
       ],
@@ -3322,15 +3463,27 @@
           "worst1_step": ""
         },
         {
-          "name": "L55S7_FVD Person (3IN1 완제품 적용)",
-          "code": "SSMDPH00721",
+          "name": "L55S7N_FVD Person (3IN1 완제품 적용)",
+          "code": "SSMDPH00730",
           "st": 2.64,
-          "total": 16882,
-          "pass": 16882,
+          "total": 1200,
+          "pass": 1200,
           "fail": 0,
           "pass_rate": 100.0,
           "manpower": 16.0,
-          "efficiency": 119.55,
+          "efficiency": 118.0,
+          "worst1_step": ""
+        },
+        {
+          "name": "L55S7_FVD Person (3IN1 완제품 적용)",
+          "code": "SSMDPH00721",
+          "st": 2.64,
+          "total": 17482,
+          "pass": 17482,
+          "fail": 0,
+          "pass_rate": 100.0,
+          "manpower": 16.0,
+          "efficiency": 121.04,
           "worst1_step": ""
         },
         {
@@ -3870,6 +4023,44 @@
               "pass_rate": 100.0,
               "manpower": 17.0,
               "efficiency": 119.16
+            }
+          ]
+        },
+        {
+          "date": "3월 18일",
+          "total": 1800,
+          "pass": 1800,
+          "fail": 0,
+          "pass_rate": 100.0,
+          "std_labor": 4752.0,
+          "actual_labor": 3680.0,
+          "efficiency": 129.43,
+          "fail_details": {
+            "models": {},
+            "steps": {}
+          },
+          "model_stats": [
+            {
+              "name": "L55S7N_FVD Person (3IN1 완제품 적용)",
+              "code": "SSMDPH00730",
+              "st": 2.64,
+              "total": 1200,
+              "pass": 1200,
+              "fail": 0,
+              "pass_rate": 100.0,
+              "manpower": 16.0,
+              "efficiency": 118.0
+            },
+            {
+              "name": "L55S7_FVD Person (3IN1 완제품 적용)",
+              "code": "SSMDPH00721",
+              "st": 2.64,
+              "total": 600,
+              "pass": 600,
+              "fail": 0,
+              "pass_rate": 100.0,
+              "manpower": 16.0,
+              "efficiency": 152.3
             }
           ]
         }
@@ -4434,9 +4625,25 @@
           "fail": 0,
           "pass_rate": 100.0,
           "efficiency": 101.8
+        },
+        {
+          "time_slot": "3월 18일 A(08:00~10:00)",
+          "total": 890,
+          "pass": 890,
+          "fail": 0,
+          "pass_rate": 100.0,
+          "efficiency": 122.4
+        },
+        {
+          "time_slot": "3월 18일 B(10:10~12:00)",
+          "total": 910,
+          "pass": 910,
+          "fail": 0,
+          "pass_rate": 100.0,
+          "efficiency": 132.95
         }
       ],
-      "efficiency": 129.73,
+      "efficiency": 129.72,
       "weekly_trend": [
         {
           "week": "Week 1",
@@ -4881,8 +5088,8 @@
         },
         {
           "week": "Week 3",
-          "total": 11098,
-          "pass": 11098,
+          "total": 12898,
+          "pass": 12898,
           "fail": 0,
           "pass_rate": 100.0,
           "days": [
@@ -4988,6 +5195,44 @@
                   "efficiency": 119.16
                 }
               ]
+            },
+            {
+              "date": "3월 18일",
+              "total": 1800,
+              "pass": 1800,
+              "fail": 0,
+              "pass_rate": 100.0,
+              "std_labor": 4752.0,
+              "actual_labor": 3680.0,
+              "efficiency": 129.43,
+              "fail_details": {
+                "models": {},
+                "steps": {}
+              },
+              "model_stats": [
+                {
+                  "name": "L55S7N_FVD Person (3IN1 완제품 적용)",
+                  "code": "SSMDPH00730",
+                  "st": 2.64,
+                  "total": 1200,
+                  "pass": 1200,
+                  "fail": 0,
+                  "pass_rate": 100.0,
+                  "manpower": 16.0,
+                  "efficiency": 118.0
+                },
+                {
+                  "name": "L55S7_FVD Person (3IN1 완제품 적용)",
+                  "code": "SSMDPH00721",
+                  "st": 2.64,
+                  "total": 600,
+                  "pass": 600,
+                  "fail": 0,
+                  "pass_rate": 100.0,
+                  "manpower": 16.0,
+                  "efficiency": 152.3
+                }
+              ]
             }
           ]
         }
@@ -4995,8 +5240,8 @@
     },
     {
       "line_id": "MPDD",
-      "total": 57408,
-      "pass": 57408,
+      "total": 59122,
+      "pass": 59122,
       "fail": 0,
       "pass_rate": 100.0,
       "models": [
@@ -5024,12 +5269,12 @@
           "name": "Display SMPS;L55S7N_HVD",
           "code": "FSMDPVD0874M",
           "st": 2.27,
-          "total": 11150,
-          "pass": 11150,
+          "total": 12864,
+          "pass": 12864,
           "fail": 0,
           "pass_rate": 100.0,
           "manpower": 16.0,
-          "efficiency": 100.28,
+          "efficiency": 100.91,
           "worst1_step": ""
         },
         {
@@ -5550,6 +5795,33 @@
               "pass_rate": 100.0,
               "manpower": 16.0,
               "efficiency": 99.02
+            }
+          ]
+        },
+        {
+          "date": "3월 18일",
+          "total": 1714,
+          "pass": 1714,
+          "fail": 0,
+          "pass_rate": 100.0,
+          "std_labor": 3891.0,
+          "actual_labor": 3680.0,
+          "efficiency": 105.95,
+          "fail_details": {
+            "models": {},
+            "steps": {}
+          },
+          "model_stats": [
+            {
+              "name": "Display SMPS;L55S7N_HVD",
+              "code": "FSMDPVD0874M",
+              "st": 2.27,
+              "total": 1714,
+              "pass": 1714,
+              "fail": 0,
+              "pass_rate": 100.0,
+              "manpower": 16.0,
+              "efficiency": 105.95
             }
           ]
         }
@@ -6098,9 +6370,25 @@
           "fail": 0,
           "pass_rate": 100.0,
           "efficiency": 84.6
+        },
+        {
+          "time_slot": "3월 18일 A(08:00~10:00)",
+          "total": 860,
+          "pass": 860,
+          "fail": 0,
+          "pass_rate": 100.0,
+          "efficiency": 101.7
+        },
+        {
+          "time_slot": "3월 18일 B(10:10~12:00)",
+          "total": 854,
+          "pass": 854,
+          "fail": 0,
+          "pass_rate": 100.0,
+          "efficiency": 110.2
         }
       ],
-      "efficiency": 113.3,
+      "efficiency": 113.12,
       "weekly_trend": [
         {
           "week": "Week 1",
@@ -6501,8 +6789,8 @@
         },
         {
           "week": "Week 3",
-          "total": 10200,
-          "pass": 10200,
+          "total": 11914,
+          "pass": 11914,
           "fail": 0,
           "pass_rate": 100.0,
           "days": [
@@ -6595,6 +6883,33 @@
                   "pass_rate": 100.0,
                   "manpower": 16.0,
                   "efficiency": 99.02
+                }
+              ]
+            },
+            {
+              "date": "3월 18일",
+              "total": 1714,
+              "pass": 1714,
+              "fail": 0,
+              "pass_rate": 100.0,
+              "std_labor": 3891.0,
+              "actual_labor": 3680.0,
+              "efficiency": 105.95,
+              "fail_details": {
+                "models": {},
+                "steps": {}
+              },
+              "model_stats": [
+                {
+                  "name": "Display SMPS;L55S7N_HVD",
+                  "code": "FSMDPVD0874M",
+                  "st": 2.27,
+                  "total": 1714,
+                  "pass": 1714,
+                  "fail": 0,
+                  "pass_rate": 100.0,
+                  "manpower": 16.0,
+                  "efficiency": 105.95
                 }
               ]
             }
@@ -8200,8 +8515,8 @@
     },
     {
       "line_id": "MPDF",
-      "total": 33247,
-      "pass": 33247,
+      "total": 35833,
+      "pass": 35833,
       "fail": 0,
       "pass_rate": 100.0,
       "models": [
@@ -8222,12 +8537,12 @@
           "name": "Display SMPS; L55S7N_FVD",
           "code": "FSMDPVD0783M",
           "st": 2.63,
-          "total": 4000,
-          "pass": 4000,
+          "total": 6586,
+          "pass": 6586,
           "fail": 0,
           "pass_rate": 100.0,
-          "manpower": 15.6,
-          "efficiency": 154.8,
+          "manpower": 16.0,
+          "efficiency": 146.22,
           "worst1_step": ""
         },
         {
@@ -8910,6 +9225,33 @@
               "efficiency": 118.26
             }
           ]
+        },
+        {
+          "date": "3월 18일",
+          "total": 2586,
+          "pass": 2586,
+          "fail": 0,
+          "pass_rate": 100.0,
+          "std_labor": 6801.0,
+          "actual_labor": 5440.0,
+          "efficiency": 126.2,
+          "fail_details": {
+            "models": {},
+            "steps": {}
+          },
+          "model_stats": [
+            {
+              "name": "Display SMPS; L55S7N_FVD",
+              "code": "FSMDPVD0783M",
+              "st": 2.63,
+              "total": 2586,
+              "pass": 2586,
+              "fail": 0,
+              "pass_rate": 100.0,
+              "manpower": 17.0,
+              "efficiency": 126.2
+            }
+          ]
         }
       ],
       "hourly_trend": [
@@ -9488,9 +9830,33 @@
           "fail": 0,
           "pass_rate": 100.0,
           "efficiency": 97.1
+        },
+        {
+          "time_slot": "3월 18일 A(08:00~10:00)",
+          "total": 880,
+          "pass": 880,
+          "fail": 0,
+          "pass_rate": 100.0,
+          "efficiency": 113.4
+        },
+        {
+          "time_slot": "3월 18일 B(10:10~12:00)",
+          "total": 900,
+          "pass": 900,
+          "fail": 0,
+          "pass_rate": 100.0,
+          "efficiency": 126.6
+        },
+        {
+          "time_slot": "3월 18일 C(13:00~15:00)",
+          "total": 806,
+          "pass": 806,
+          "fail": 0,
+          "pass_rate": 100.0,
+          "efficiency": 138.6
         }
       ],
-      "efficiency": 108.73,
+      "efficiency": 109.3,
       "weekly_trend": [
         {
           "week": "Week 1",
@@ -10006,8 +10372,8 @@
         },
         {
           "week": "Week 3",
-          "total": 6382,
-          "pass": 6382,
+          "total": 8968,
+          "pass": 8968,
           "fail": 0,
           "pass_rate": 100.0,
           "days": [
@@ -10075,6 +10441,33 @@
                   "efficiency": 118.26
                 }
               ]
+            },
+            {
+              "date": "3월 18일",
+              "total": 2586,
+              "pass": 2586,
+              "fail": 0,
+              "pass_rate": 100.0,
+              "std_labor": 6801.0,
+              "actual_labor": 5440.0,
+              "efficiency": 126.2,
+              "fail_details": {
+                "models": {},
+                "steps": {}
+              },
+              "model_stats": [
+                {
+                  "name": "Display SMPS; L55S7N_FVD",
+                  "code": "FSMDPVD0783M",
+                  "st": 2.63,
+                  "total": 2586,
+                  "pass": 2586,
+                  "fail": 0,
+                  "pass_rate": 100.0,
+                  "manpower": 17.0,
+                  "efficiency": 126.2
+                }
+              ]
             }
           ]
         }
@@ -10082,8 +10475,8 @@
     },
     {
       "line_id": "MPDG",
-      "total": 52237,
-      "pass": 52237,
+      "total": 53262,
+      "pass": 53262,
       "fail": 0,
       "pass_rate": 100.0,
       "models": [
@@ -10176,12 +10569,12 @@
           "name": "Display SMPS;L65S80NA_HVD (RADIAL2)",
           "code": "FSMDPVD0895M",
           "st": 3.29,
-          "total": 7000,
-          "pass": 7000,
+          "total": 8025,
+          "pass": 8025,
           "fail": 0,
           "pass_rate": 100.0,
-          "manpower": 15.9,
-          "efficiency": 103.55,
+          "manpower": 15.8,
+          "efficiency": 102.84,
           "worst1_step": ""
         },
         {
@@ -10819,6 +11212,33 @@
               "efficiency": 95.62
             }
           ]
+        },
+        {
+          "date": "3월 18일",
+          "total": 1025,
+          "pass": 1025,
+          "fail": 0,
+          "pass_rate": 100.0,
+          "std_labor": 3372.0,
+          "actual_labor": 3450.0,
+          "efficiency": 97.9,
+          "fail_details": {
+            "models": {},
+            "steps": {}
+          },
+          "model_stats": [
+            {
+              "name": "Display SMPS;L65S80NA_HVD (RADIAL2)",
+              "code": "FSMDPVD0895M",
+              "st": 3.29,
+              "total": 1025,
+              "pass": 1025,
+              "fail": 0,
+              "pass_rate": 100.0,
+              "manpower": 15.0,
+              "efficiency": 97.9
+            }
+          ]
         }
       ],
       "hourly_trend": [
@@ -11389,9 +11809,25 @@
           "fail": 0,
           "pass_rate": 100.0,
           "efficiency": 85.9
+        },
+        {
+          "time_slot": "3월 18일 A(08:00~10:00)",
+          "total": 520,
+          "pass": 520,
+          "fail": 0,
+          "pass_rate": 100.0,
+          "efficiency": 95.1
+        },
+        {
+          "time_slot": "3월 18일 B(10:10~12:00)",
+          "total": 505,
+          "pass": 505,
+          "fail": 0,
+          "pass_rate": 100.0,
+          "efficiency": 100.7
         }
       ],
-      "efficiency": 116.62,
+      "efficiency": 116.2,
       "weekly_trend": [
         {
           "week": "Week 1",
@@ -11907,8 +12343,8 @@
         },
         {
           "week": "Week 3",
-          "total": 7550,
-          "pass": 7550,
+          "total": 8575,
+          "pass": 8575,
           "fail": 0,
           "pass_rate": 100.0,
           "days": [
@@ -12003,6 +12439,33 @@
                   "efficiency": 95.62
                 }
               ]
+            },
+            {
+              "date": "3월 18일",
+              "total": 1025,
+              "pass": 1025,
+              "fail": 0,
+              "pass_rate": 100.0,
+              "std_labor": 3372.0,
+              "actual_labor": 3450.0,
+              "efficiency": 97.9,
+              "fail_details": {
+                "models": {},
+                "steps": {}
+              },
+              "model_stats": [
+                {
+                  "name": "Display SMPS;L65S80NA_HVD (RADIAL2)",
+                  "code": "FSMDPVD0895M",
+                  "st": 3.29,
+                  "total": 1025,
+                  "pass": 1025,
+                  "fail": 0,
+                  "pass_rate": 100.0,
+                  "manpower": 15.0,
+                  "efficiency": 97.9
+                }
+              ]
             }
           ]
         }
@@ -12010,8 +12473,8 @@
     },
     {
       "line_id": "MPDH",
-      "total": 25599,
-      "pass": 25599,
+      "total": 26614,
+      "pass": 26614,
       "fail": 0,
       "pass_rate": 100.0,
       "models": [
@@ -12056,12 +12519,12 @@
           "name": "Display SMPS;L65SC9NA_HVD",
           "code": "FSMDPVD0882M",
           "st": 3.71,
-          "total": 1200,
-          "pass": 1200,
+          "total": 2215,
+          "pass": 2215,
           "fail": 0,
           "pass_rate": 100.0,
           "manpower": 15.0,
-          "efficiency": 106.87,
+          "efficiency": 107.8,
           "worst1_step": ""
         },
         {
@@ -12578,6 +13041,33 @@
               "efficiency": 106.35
             }
           ]
+        },
+        {
+          "date": "3월 18일",
+          "total": 1015,
+          "pass": 1015,
+          "fail": 0,
+          "pass_rate": 100.0,
+          "std_labor": 3765.0,
+          "actual_labor": 3450.0,
+          "efficiency": 109.2,
+          "fail_details": {
+            "models": {},
+            "steps": {}
+          },
+          "model_stats": [
+            {
+              "name": "Display SMPS;L65SC9NA_HVD",
+              "code": "FSMDPVD0882M",
+              "st": 3.71,
+              "total": 1015,
+              "pass": 1015,
+              "fail": 0,
+              "pass_rate": 100.0,
+              "manpower": 15.0,
+              "efficiency": 109.2
+            }
+          ]
         }
       ],
       "hourly_trend": [
@@ -13052,9 +13542,25 @@
           "fail": 0,
           "pass_rate": 100.0,
           "efficiency": 101.0
+        },
+        {
+          "time_slot": "3월 18일 A(08:00~10:00)",
+          "total": 519,
+          "pass": 519,
+          "fail": 0,
+          "pass_rate": 100.0,
+          "efficiency": 106.9
+        },
+        {
+          "time_slot": "3월 18일 B(10:10~12:00)",
+          "total": 496,
+          "pass": 496,
+          "fail": 0,
+          "pass_rate": 100.0,
+          "efficiency": 111.5
         }
       ],
-      "efficiency": 110.71,
+      "efficiency": 110.66,
       "weekly_trend": [
         {
           "week": "Week 1",
@@ -13439,8 +13945,8 @@
         },
         {
           "week": "Week 3",
-          "total": 4000,
-          "pass": 4000,
+          "total": 5015,
+          "pass": 5015,
           "fail": 0,
           "pass_rate": 100.0,
           "days": [
@@ -13497,6 +14003,33 @@
                   "efficiency": 106.35
                 }
               ]
+            },
+            {
+              "date": "3월 18일",
+              "total": 1015,
+              "pass": 1015,
+              "fail": 0,
+              "pass_rate": 100.0,
+              "std_labor": 3765.0,
+              "actual_labor": 3450.0,
+              "efficiency": 109.2,
+              "fail_details": {
+                "models": {},
+                "steps": {}
+              },
+              "model_stats": [
+                {
+                  "name": "Display SMPS;L65SC9NA_HVD",
+                  "code": "FSMDPVD0882M",
+                  "st": 3.71,
+                  "total": 1015,
+                  "pass": 1015,
+                  "fail": 0,
+                  "pass_rate": 100.0,
+                  "manpower": 15.0,
+                  "efficiency": 109.2
+                }
+              ]
             }
           ]
         }
@@ -13504,8 +14037,8 @@
     },
     {
       "line_id": "MPDI",
-      "total": 33166,
-      "pass": 33166,
+      "total": 33966,
+      "pass": 33966,
       "fail": 0,
       "pass_rate": 100.0,
       "models": [
@@ -13596,12 +14129,12 @@
           "name": "Display SMPS;L85S80NA_HVD (RADIAL2)",
           "code": "FSMDPVD0899M",
           "st": 3.76,
-          "total": 3600,
-          "pass": 3600,
+          "total": 4400,
+          "pass": 4400,
           "fail": 0,
           "pass_rate": 100.0,
-          "manpower": 14.3,
-          "efficiency": 132.53,
+          "manpower": 14.6,
+          "efficiency": 123.33,
           "worst1_step": ""
         },
         {
@@ -14065,6 +14598,33 @@
               "pass_rate": 100.0,
               "manpower": 16.0,
               "efficiency": 82.32
+            }
+          ]
+        },
+        {
+          "date": "3월 18일",
+          "total": 800,
+          "pass": 800,
+          "fail": 0,
+          "pass_rate": 100.0,
+          "std_labor": 3008.0,
+          "actual_labor": 3680.0,
+          "efficiency": 81.9,
+          "fail_details": {
+            "models": {},
+            "steps": {}
+          },
+          "model_stats": [
+            {
+              "name": "Display SMPS;L85S80NA_HVD (RADIAL2)",
+              "code": "FSMDPVD0899M",
+              "st": 3.76,
+              "total": 800,
+              "pass": 800,
+              "fail": 0,
+              "pass_rate": 100.0,
+              "manpower": 16.0,
+              "efficiency": 81.9
             }
           ]
         }
@@ -14589,9 +15149,25 @@
           "fail": 0,
           "pass_rate": 100.0,
           "efficiency": 70.5
+        },
+        {
+          "time_slot": "3월 18일 A(08:00~10:00)",
+          "total": 400,
+          "pass": 400,
+          "fail": 0,
+          "pass_rate": 100.0,
+          "efficiency": 78.3
+        },
+        {
+          "time_slot": "3월 18일 B(10:10~12:00)",
+          "total": 400,
+          "pass": 400,
+          "fail": 0,
+          "pass_rate": 100.0,
+          "efficiency": 85.5
         }
       ],
-      "efficiency": 101.62,
+      "efficiency": 101.06,
       "weekly_trend": [
         {
           "week": "Week 1",
@@ -14997,8 +15573,8 @@
         },
         {
           "week": "Week 3",
-          "total": 3999,
-          "pass": 3999,
+          "total": 4799,
+          "pass": 4799,
           "fail": 0,
           "pass_rate": 100.0,
           "days": [
@@ -15053,6 +15629,33 @@
                   "pass_rate": 100.0,
                   "manpower": 16.0,
                   "efficiency": 82.32
+                }
+              ]
+            },
+            {
+              "date": "3월 18일",
+              "total": 800,
+              "pass": 800,
+              "fail": 0,
+              "pass_rate": 100.0,
+              "std_labor": 3008.0,
+              "actual_labor": 3680.0,
+              "efficiency": 81.9,
+              "fail_details": {
+                "models": {},
+                "steps": {}
+              },
+              "model_stats": [
+                {
+                  "name": "Display SMPS;L85S80NA_HVD (RADIAL2)",
+                  "code": "FSMDPVD0899M",
+                  "st": 3.76,
+                  "total": 800,
+                  "pass": 800,
+                  "fail": 0,
+                  "pass_rate": 100.0,
+                  "manpower": 16.0,
+                  "efficiency": 81.9
                 }
               ]
             }
@@ -15307,7 +15910,15 @@
       "manpower": 15.2,
       "prod_per_person": 166.4,
       "loss_rate": 0.02
+    },
+    {
+      "date": "3월 18일",
+      "qty": 12548,
+      "efficiency": 110.78,
+      "manpower": 16.2,
+      "prod_per_person": 191.06,
+      "loss_rate": 0.01
     }
   ],
-  "generated_at": "2026-03-18 08:24:39"
+  "generated_at": "2026-03-18 15:25:22"
 }

@@ -12,14 +12,20 @@ if %errorlevel% neq 0 (
     exit /b 1
 )
 
-echo [2/3] Building Dashboards...
+echo [2/4] Building PBA Dashboards...
 python build_dashboard_pba.py
 if %errorlevel% neq 0 (
-    echo [ERROR] Dashboard build failed.
+    echo [ERROR] PBA Dashboard build failed.
     exit /b 1
 )
 
-echo [3/3] Uploading to GitHub...
+echo [3/4] Updating ICT Dashboard...
+pushd "c:\Users\yoonh\Desktop\AI\ICT데이타"
+python extract_data.py
+python build_dashboard.py
+popd
+
+echo [4/4] Uploading to GitHub...
 git add .
 git commit -m "Auto-update: %date% %time%"
 git push origin master
