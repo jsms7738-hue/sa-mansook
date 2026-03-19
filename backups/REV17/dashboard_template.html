@@ -1,0 +1,1136 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PBA Production Dashboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@400;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.0.0"></script>
+    <style>
+        :root {
+            --primary: #6366f1;
+            --secondary: #a855f7;
+            --success: #10b981;
+            --danger: #ef4444;
+            --card-bg: rgba(255, 255, 255, 0.8);
+            --nav-bg: rgba(255, 255, 255, 0.4);
+            --nav-border: rgba(255, 255, 255, 0.3);
+            --text-main: #1e293b;
+            --text-muted: #64748b;
+            --body-bg: linear-gradient(135deg, #e0e7ff 0%, #f3e8ff 100%);
+            --body-bg-color: transparent;
+            --table-border: rgba(0,0,0,0.05);
+            --th-bg: rgba(0,0,0,0.02);
+        }
+
+        body.dark-theme {
+            --card-bg: rgba(20, 20, 40, 0.75);
+            --nav-bg: rgba(10, 10, 25, 0.6);
+            --nav-border: rgba(255, 255, 255, 0.08);
+            --text-main: #e2e8f0;
+            --text-muted: #94a3b8;
+            --body-bg: linear-gradient(135deg, #0f0c29 0%, #302b63 50%, #24243e 100%);
+            --table-border: rgba(255,255,255,0.07);
+            --th-bg: rgba(255,255,255,0.05);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Pretendard', sans-serif;
+        }
+
+        body {
+            background: var(--body-bg);
+            color: var(--text-main);
+            height: 100vh;
+            overflow: hidden;
+            display: flex;
+            transition: background 0.4s ease, color 0.3s ease;
+        }
+
+        .nav-sidebar {
+            width: 75px;
+            background: var(--nav-bg);
+            backdrop-filter: blur(20px);
+            border-right: 1px solid var(--nav-border);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 1.5rem 0;
+            gap: 1rem;
+            flex-shrink: 0;
+            overflow-y: auto;
+            scrollbar-width: none;
+            transition: background 0.4s ease;
+        }
+        .nav-sidebar::-webkit-scrollbar { display: none; }
+
+        .theme-btn {
+            width: 44px;
+            height: 44px;
+            border-radius: 12px;
+            border: 1px solid var(--nav-border);
+            background: var(--card-bg);
+            color: var(--text-muted);
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.3rem;
+            transition: all 0.3s ease;
+            margin-top: auto;
+        }
+        .theme-btn:hover {
+            background: var(--primary);
+            color: white;
+            transform: scale(1.1);
+        }
+
+        .nav-item {
+            width: 54px;
+            height: 54px;
+            border-radius: 14px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            color: var(--text-muted);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            background: var(--card-bg);
+            border: 1px solid transparent;
+        }
+
+        .nav-item:hover {
+            transform: translateY(-2px);
+            background: white;
+            color: var(--primary);
+            border-color: var(--primary);
+        }
+
+        .nav-item.active {
+            background: var(--primary);
+            color: white;
+            box-shadow: 0 8px 16px rgba(99, 102, 241, 0.2);
+            border-color: var(--primary);
+        }
+
+        .nav-item .icon { font-size: 1.4rem; margin-bottom: 2px; }
+        .nav-item .label { font-size: 0.7rem; font-weight: 700; }
+
+        .nav-divider {
+            width: 40%;
+            height: 2px;
+            background: rgba(0,0,0,0.05);
+            border-radius: 2px;
+            margin: 0.5rem 0;
+        }
+
+        .container {
+            flex: 1;
+            height: 100vh;
+            display: flex;
+            gap: clamp(0.5rem, 1.5vw, 1.25rem);
+            padding: clamp(0.5rem, 2vw, 1.25rem);
+            overflow: hidden;
+        }
+
+        .sidebar {
+            width: clamp(260px, 25vw, 320px);
+            flex-shrink: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            overflow: hidden;
+            padding-right: 0.5rem;
+        }
+
+        .main-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            overflow: hidden;
+        }
+
+        header {
+            margin-bottom: 0.5rem;
+            text-align: left;
+        }
+
+        header h1 {
+            font-size: clamp(1.2rem, 3vw, 1.5rem);
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 0.2rem;
+        }
+
+        header p {
+            color: var(--text-muted);
+            font-size: clamp(0.75rem, 1.5vw, 0.85rem);
+        }
+
+        .stat-card {
+            background: var(--card-bg);
+            backdrop-filter: blur(10px);
+            border-radius: 1rem;
+            padding: 1.25rem;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            border: 1px solid var(--nav-border);
+            transition: transform 0.3s ease, background 0.4s ease;
+        }
+        
+        .stat-card.compact { padding: 1rem; }
+
+        .stat-card:hover { transform: translateY(-3px); }
+
+        .stat-card h3 {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 0.25rem;
+        }
+
+        .scroll-area {
+            flex: 1;
+            overflow-y: auto;
+            padding-right: 0.5rem;
+            scrollbar-width: thin;
+            scrollbar-color: var(--primary) transparent;
+        }
+
+        .sheets-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(clamp(200px, 25vw, 300px), 1fr));
+            gap: 1rem;
+        }
+
+        .sheet-card {
+            background: var(--card-bg);
+            backdrop-filter: blur(10px);
+            border-radius: 1rem;
+            padding: 0.75rem;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            transition: all 0.3s ease;
+        }
+        .sheet-card:hover { transform: scale(1.02); box-shadow: 0 8px 20px rgba(0,0,0,0.15); }
+
+        .sheet-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.5rem;
+        }
+
+        .sheet-title { font-size: 1rem; font-weight: 700; color: var(--primary); }
+
+        .badge {
+            padding: 0.2rem 0.6rem;
+            border-radius: 6px;
+            font-size: 0.75rem;
+            font-weight: 700;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.85rem;
+        }
+
+        th, td {
+            padding: 0.5rem;
+            text-align: center;
+            border-bottom: 1px solid var(--table-border);
+            color: var(--text-main);
+        }
+
+        th { background: var(--th-bg); color: var(--text-muted); font-weight: 600; }
+
+        /* Summary Table Fixes */
+        #summary-table {
+            table-layout: fixed;
+            width: 100%;
+        }
+        #summary-table th, #summary-table td {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            padding: 0.3rem 0.15rem;
+            font-size: 0.6rem;
+            line-height: 1.1;
+        }
+        #summary-table th {
+            white-space: normal;
+            font-size: 0.55rem;
+            vertical-align: middle;
+            color: var(--text-muted);
+            font-weight: 700;
+        }
+        #summary-table td {
+            white-space: nowrap;
+        }
+        #summary-table th:nth-child(1), #summary-table td:nth-child(1) { width: 45%; text-align: left; }
+        #summary-table th:nth-child(2), #summary-table td:nth-child(2) { width: 35%; text-align: left; }
+        #summary-table th:nth-child(3), #summary-table td:nth-child(3) { width: 20%; text-align: right; padding-right: 0.5rem; }
+
+        footer {
+            margin-top: auto;
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 0.75rem;
+            padding: 1rem 0;
+        }
+
+        /* === DEFECT MODAL === */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.55);
+            backdrop-filter: blur(6px);
+            z-index: 10000;
+            justify-content: center;
+            align-items: center;
+            padding: 1rem;
+        }
+        .modal-overlay.open { display: flex; }
+        .modal-box {
+            background: var(--card-bg);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--nav-border);
+            border-radius: 1.25rem;
+            padding: 1.5rem;
+            width: min(720px, 95vw);
+            max-height: 85vh;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .modal-title {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--primary);
+        }
+        .modal-close {
+            width: 32px; height: 32px;
+            border-radius: 50%;
+            border: none;
+            background: var(--danger);
+            color: white;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+        .modal-close:hover { transform: scale(1.15); }
+        .modal-body {
+            flex: 1;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+        .modal-model-section {
+            background: var(--th-bg);
+            border-radius: 0.75rem;
+            padding: 0.75rem;
+            border: 1px solid var(--table-border);
+        }
+        .modal-model-title {
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: var(--text-main);
+            margin-bottom: 0.5rem;
+        }
+        .step-bar-row {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 0.3rem;
+            font-size: 0.75rem;
+        }
+        .step-bar-label { width: 140px; flex-shrink: 0; color: var(--text-muted); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+        .step-bar-track { flex: 1; background: var(--table-border); border-radius: 4px; height: 14px; }
+        .step-bar-fill { height: 100%; border-radius: 4px; background: linear-gradient(to right, #1a3a8a, var(--primary)); }
+        .step-bar-count { width: 32px; text-align: right; font-weight: 700; color: var(--danger); }
+        
+        .fail-cell {
+            cursor: pointer;
+            text-decoration: underline dotted;
+            transition: color 0.2s;
+        }
+        .fail-cell:hover { color: #b91c1c !important; }
+        
+        .date-cell {
+            cursor: pointer;
+            text-decoration: underline dotted;
+            transition: color 0.2s;
+        }
+        .date-cell:hover { color: var(--primary) !important; }
+
+        .date-btn-list {
+            display: flex;
+            gap: 0.5rem;
+            overflow-x: auto;
+            padding-bottom: 0.5rem;
+            margin-bottom: 0.5rem;
+            scrollbar-width: thin;
+        }
+        .date-btn {
+            background: var(--nav-bg);
+            border: 1px solid var(--nav-border);
+            color: var(--text-main);
+            padding: 0.4rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            cursor: pointer;
+            white-space: nowrap;
+            transition: all 0.2s;
+        }
+        .date-btn:hover { background: var(--primary); color: white; }
+        .date-btn.active { background: var(--primary); color: white; border-color: var(--primary); box-shadow: 0 4px 10px rgba(99,102,241,0.3); }
+    </style>
+</head>
+<body>
+    <nav class="nav-sidebar" id="nav-sidebar" style="z-index: 1000;">
+        <a href="dashboard.html" class="nav-item" id="nav-home" title="종합 대시보드">
+            <span class="icon">🏠</span>
+            <span class="label">종합</span>
+        </a>
+        <div class="nav-divider"></div>
+        <button class="theme-btn" id="theme-toggle-btn" title="테마 전환" onclick="toggleTheme()">
+            <span id="theme-icon">🌙</span>
+        </button>
+    </nav>
+
+    <div class="container" id="main-container">
+        <aside class="sidebar" id="sidebar" style="position: relative; padding-bottom: 2rem;">
+            <div id="sidebar-top-section" style="display: flex; flex-direction: column; gap: 1rem;">
+                <header style="display: flex; align-items: start; justify-content: space-between;">
+                    <div>
+                        <h1 id="sidebar-title" style="font-size: 1.1rem;">PBA Dashboard</h1>
+                        <p id="sidebar-subtitle" style="font-size: 0.75rem;">Performance Metrics</p>
+                        <p id="last-update" style="font-size: 0.65rem; color: var(--text-muted); opacity: 0.8; margin-top: 2px;">Last Update: -</p>
+                    </div>
+                </header>
+
+                <div style="position: relative; margin: 0.2rem 0;">
+                    <button id="update-btn" onclick="triggerUpdate()" title="데이터 업데이트" style="width: 100%; height: 38px; border-radius: 8px; border: none; background: var(--primary); color: white; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 0.6rem; transition: all 0.3s ease; box-shadow: 0 2px 6px rgba(99, 102, 241, 0.2); font-family: inherit;">
+                        <span id="update-icon" style="font-size: 1rem;">🔄</span>
+                        <span style="font-size: 0.8rem; font-weight: 700;">데이터 업데이트</span>
+                    </button>
+                    <p id="update-status" style="position: absolute; right: 0; top: 100%; width: 100%; font-size: 0.6rem; color: var(--text-muted); text-align: center; background: var(--card-bg); padding: 4px 8px; border-radius: 4px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); display: none; z-index: 100;"></p>
+                </div>
+
+                <div id="stats-area"></div>
+            </div>
+
+            <div class="stat-card compact" id="summary-card" style="margin-top: 0; flex: 1; min-height: 0; overflow: hidden; display: flex; flex-direction: column;">
+                <h2 id="summary-title" style="flex-shrink:0; margin-bottom: 0.5rem; color: var(--primary); font-size: 0.9rem;">📊 제품 상세정보</h2>
+                <div style="flex: 1; overflow-y: auto; min-height: 0;">
+                    <table id="summary-table">
+                        <thead>
+                            <tr>
+                                <th id="th-line">모델명</th>
+                                <th id="th-total">완제품코드</th>
+                                <th id="th-rate">모델<br>ST</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </div>
+
+            <footer style="position: absolute; bottom: 0.5rem; left: 0; width: 100%; text-align: center; font-size: 0.7rem; color: var(--text-muted); pointer-events: none;">
+                &copy; 2026 PBA Data Team
+            </footer>
+        </aside>
+
+        <main class="main-content">
+            <div id="overview-view" style="display: none; height: 100%; flex-direction: column; gap: 1rem; overflow: hidden;">
+                <!-- Top Row: Main Production, Efficiency & Loss Rate -->
+                <div class="stat-card" style="flex: 2; min-height: 350px; display: flex; flex-direction: column;">
+                    <h3 style="font-size: 0.95rem; margin-bottom: 0.5rem; text-transform: none; font-weight: 700;">
+                        <span style="color: var(--primary); margin-right: 0.5rem;">●</span> 1 & 4. 일 생산실적 / 효율 / 유실율 통합 분석
+                    </h3>
+                    <div style="flex: 1; min-height: 0;">
+                        <canvas id="chart-main-combined"></canvas>
+                    </div>
+                </div>
+
+                <!-- Bottom Row: Manpower & Productivity -->
+                <div style="display: flex; gap: 1rem; flex: 1; min-height: 250px;">
+                    <div class="stat-card" style="flex: 1; display: flex; flex-direction: column;">
+                        <h3 style="font-size: 0.85rem; margin-bottom: 0.5rem; text-transform: none; font-weight: 700;">
+                            <span style="color: var(--secondary); margin-right: 0.5rem;">●</span> 2. 일 투입 인력현황 (명)
+                        </h3>
+                        <div style="flex: 1; min-height: 0;">
+                            <canvas id="chart-manpower"></canvas>
+                        </div>
+                    </div>
+                    <div class="stat-card" style="flex: 1; display: flex; flex-direction: column;">
+                        <h3 style="font-size: 0.85rem; margin-bottom: 0.5rem; text-transform: none; font-weight: 700;">
+                            <span style="color: var(--success); margin-right: 0.5rem;">●</span> 3. 인당 생산수 (EA/인)
+                        </h3>
+                        <div style="flex: 1; min-height: 0;">
+                            <canvas id="chart-productivity"></canvas>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="scroll-area" style="display: none;"> <!-- Hidden but kept for logic compatibility if needed -->
+                    <div class="sheets-grid" id="sheets-grid"></div>
+                </div>
+            </div>
+
+            <div id="deep-dive-view" style="display: none; height: 100%; flex-direction: column; gap: 1rem; overflow: hidden; padding: 0.5rem 1rem 1rem 0; width: 100%;">
+                <div style="display: flex; align-items: center; gap: 2rem; margin-bottom: 0.5rem; flex-shrink: 0; padding-left: 0.5rem;">
+                    <h1 id="deep-dive-title" style="font-size: 1.8rem; font-weight: 800; color: var(--primary);">Line</h1>
+                    <button id="deep-dive-update-btn" onclick="triggerUpdate()" title="데이터 업데이트" style="padding: 0.4rem 0.8rem; border-radius: 4px; border: none; background: var(--primary); color: white; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 0.4rem; transition: all 0.3s ease; box-shadow: 0 2px 6px rgba(99, 102, 241, 0.2); font-family: inherit;">
+                        <span id="update-icon-deep" style="font-size: 0.8rem;">🔄</span>
+                        <span style="font-size: 0.7rem; font-weight: 700;">데이터 업데이트</span>
+                    </button>
+                    <p id="update-status-deep" style="font-size: 0.7rem; color: var(--text-muted); margin-left: auto;"></p>
+                </div>
+
+                <div style="display: flex; gap: 1rem; flex-shrink: 0; min-height: 220px; height: 220px;">
+                    <!-- 1. Total Efficiency -->
+                    <div class="stat-card" style="flex: 0.5; padding: 1.5rem; display: flex; flex-direction: column; justify-content: center; align-items: center; position: relative; overflow: hidden;">
+                        <p id="deep-dive-efficiency-title" style="font-size: 1rem; color: var(--text-muted); font-weight: 700; text-align: center; margin-bottom: 0.5rem;">총 효율%</p>
+                        <div style="flex: 1; display: flex; align-items: center; justify-content: center;">
+                            <h2 id="deep-dive-efficiency" style="font-size: 3.5rem; font-weight: 900; color: var(--primary); font-variant-numeric: tabular-nums; line-height: 1; letter-spacing: -1px; text-shadow: 0 4px 6px rgba(99, 102, 241, 0.1);">0</h2>
+                            <span style="font-size: 1.5rem; font-weight: 800; color: var(--text-muted); margin-left: 2px;">%</span>
+                        </div>
+                    </div>
+                    
+                    <!-- 2. Daily Efficiency Trend -->
+                    <div class="stat-card" style="flex: 1; padding: 1rem 1.5rem; display: flex; flex-direction: column; position: relative;">
+                        <h3 style="font-size: 1rem; color: var(--primary); font-weight: 700; margin-bottom: 0.5rem;">📅 일자별 효율%</h3>
+                        <div style="flex: 1; position: relative; min-height: 0;">
+                            <canvas id="deep-dive-daily-trend-chart"></canvas>
+                        </div>
+                    </div>
+
+                    <!-- 3. Production Model Info -->
+                    <div id="deep-dive-models-card" class="stat-card" style="flex: 1; display: flex; flex-direction: column; overflow: hidden; padding: 1rem 1.5rem;">
+                         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
+                             <h3 style="font-size: 1rem; color: var(--primary); font-weight: 700;">📦 생산모델정보</h3>
+                             <span style="font-size: 0.75rem; color: var(--text-muted); font-weight: 500;">(스크롤 가능)</span>
+                         </div>
+                         <div style="flex: 1; overflow-y: auto; border-radius: 8px;">
+                             <table id="deep-dive-summary-table" style="width: 100%; text-align: left; border-collapse: collapse;">
+                                 <thead style="position: sticky; top: 0; z-index: 2; background: var(--card-bg);">
+                                     <tr>
+                                         <th style="padding: 0.6rem 0.4rem; font-size: 0.75rem; border-bottom: 2px solid var(--table-border);">모델명</th>
+                                         <th style="padding: 0.6rem 0.4rem; font-size: 0.75rem; border-bottom: 2px solid var(--table-border);">완제품코드</th>
+                                         <th style="padding: 0.6rem 0.4rem; font-size: 0.75rem; border-bottom: 2px solid var(--table-border);">모델ST</th>
+                                         <th style="padding: 0.6rem 0.4rem; font-size: 0.75rem; border-bottom: 2px solid var(--table-border);">투입인력</th>
+                                         <th style="padding: 0.6rem 0.4rem; font-size: 0.75rem; border-bottom: 2px solid var(--table-border);">생산수량</th>
+                                         <th style="padding: 0.6rem 0.4rem; font-size: 0.75rem; border-bottom: 2px solid var(--table-border);">효율(%)</th>
+                                     </tr>
+                                 </thead>
+                                 <tbody></tbody>
+                             </table>
+                         </div>
+                    </div>
+                </div>
+
+                <div style="display: flex; gap: 1rem; flex: 1; min-height: 0; margin-top: 1rem;">
+                    <!-- 4. Hourly Efficiency -->
+                    <div class="stat-card" style="flex: 1.3; display: flex; flex-direction: column; padding: 1.5rem; overflow: hidden;">
+                        <h2 id="deep-dive-hourly-title" style="font-size: 1.25rem; font-weight: 800; color: var(--text-main); margin-bottom: 0.8rem;">TIME당 생산실적</h2>
+                        <div id="date-btn-container" class="date-btn-list" style="flex-shrink: 0; margin-bottom: 1rem; border-bottom: 1px solid var(--table-border); padding-bottom: 0.5rem;"></div>
+                        <div style="flex: 1; position: relative; min-height: 0;">
+                            <canvas id="hourly-trend-chart"></canvas>
+                        </div>
+                    </div>
+
+                    <!-- 5. Daily Detailed Records -->
+                    <div class="stat-card" style="flex: 0.8; display: flex; flex-direction: column; padding: 1.5rem; overflow: hidden;">
+                        <h2 style="font-size: 1.25rem; font-weight: 800; color: var(--text-main); margin-bottom: 1rem;">일자별 상세 기록</h2>
+                        <div style="flex: 1; overflow-y: auto; border-radius: 8px;">
+                            <table id="line-detail-table" style="width: 100%; text-align: left; border-collapse: collapse;">
+                                <thead style="position: sticky; top: 0; z-index: 2; background: var(--card-bg);">
+                                    <tr>
+                                        <th style="padding: 0.8rem 0.4rem; border-bottom: 2px solid var(--table-border); font-size: 0.85rem;">일자</th>
+                                        <th style="padding: 0.8rem 0.4rem; border-bottom: 2px solid var(--table-border); font-size: 0.85rem;">생산수량</th>
+                                        <th style="padding: 0.8rem 0.4rem; border-bottom: 2px solid var(--table-border); font-size: 0.85rem;">표준공수</th>
+                                        <th style="padding: 0.8rem 0.4rem; border-bottom: 2px solid var(--table-border); font-size: 0.85rem;">작업공수</th>
+                                        <th style="padding: 0.8rem 0.4rem; border-bottom: 2px solid var(--table-border); font-size: 0.85rem;">효율(%)</th>
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Defect Detail Modal -->
+    <div id="fail-modal" class="modal-overlay">
+        <div class="modal-box">
+            <div class="modal-header">
+                <h2 class="modal-title" id="fail-modal-title">일자별 불량 상세 정보</h2>
+                <button class="modal-close" onclick="closeFailModal()">&times;</button>
+            </div>
+            <div class="modal-body" id="fail-modal-body">
+                <!-- Content injected via JS -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Update Guide Modal -->
+    <div id="update-guide-modal" class="modal-overlay" onclick="if(event.target===this)closeUpdateGuideModal()">
+        <div class="modal-box" style="max-width: 520px;">
+            <div class="modal-header">
+                <h2 class="modal-title">🔄 데이터 업데이트 방법</h2>
+                <button class="modal-close" onclick="closeUpdateGuideModal()">&times;</button>
+            </div>
+            <div class="modal-body" style="gap: 1rem;">
+                <div style="background: var(--th-bg); border-radius: 0.75rem; padding: 1rem; border: 1px solid var(--table-border);">
+                    <p style="font-size: 0.9rem; font-weight: 700; color: var(--primary); margin-bottom: 0.75rem;">📋 업데이트 순서</p>
+                    <ol style="padding-left: 1.2rem; display: flex; flex-direction: column; gap: 0.6rem;">
+                        <li style="font-size: 0.85rem; color: var(--text-main);">
+                            <strong>PBA 실적.xlsx</strong> 파일에 새 데이터를 저장하세요.
+                        </li>
+                        <li style="font-size: 0.85rem; color: var(--text-main);">
+                            아래 배치 파일을 <strong>더블클릭</strong>하여 실행하세요:<br>
+                            <code style="background: rgba(99,102,241,0.1); padding: 0.2rem 0.5rem; border-radius: 4px; font-size: 0.8rem; color: var(--primary); display: inline-block; margin-top: 0.3rem;">update_data.bat</code>
+                        </li>
+                        <li style="font-size: 0.85rem; color: var(--text-main);">
+                            실행이 완료되면 아래 <strong>새로고침</strong> 버튼을 누르세요.
+                        </li>
+                    </ol>
+                </div>
+                <div style="background: rgba(239,68,68,0.07); border-radius: 0.75rem; padding: 0.75rem 1rem; border: 1px solid rgba(239,68,68,0.2);">
+                    <p style="font-size: 0.8rem; color: #b91c1c;">
+                        ⚠️ 배치 파일이 없다면 폴더 내 <code>update_data.bat</code> 파일을 확인하세요.<br>
+                        Python 및 <code>pandas</code>, <code>openpyxl</code> 패키지가 필요합니다.
+                    </p>
+                </div>
+                <div style="display: flex; gap: 0.75rem; justify-content: flex-end; flex-shrink: 0;">
+                    <button onclick="closeUpdateGuideModal()" style="padding: 0.5rem 1.2rem; border-radius: 8px; border: 1px solid var(--nav-border); background: var(--card-bg); color: var(--text-main); cursor: pointer; font-family: inherit; font-weight: 600;">닫기</button>
+                    <button onclick="reloadAfterUpdate()" style="padding: 0.5rem 1.4rem; border-radius: 8px; border: none; background: var(--primary); color: white; cursor: pointer; font-family: inherit; font-weight: 700; display: flex; align-items: center; gap: 0.4rem;">
+                        🔄 새로고침
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="error-overlay" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(255,255,255,0.9); z-index: 9999; justify-content: center; align-items: center; padding: 2rem; text-align: center;">
+        <div style="background: white; padding: 2rem; border-radius: 1rem; box-shadow: 0 10px 25px rgba(0,0,0,0.1); border: 2px solid var(--danger);">
+            <h2 style="color: var(--danger); margin-bottom: 1rem;">❌ 오류 발생</h2>
+            <p id="error-message" style="margin-bottom: 1.5rem;"></p>
+            <button onclick="location.reload()" style="padding: 0.5rem 1.5rem; background: var(--primary); color: white; border: none; border-radius: 0.5rem; cursor: pointer;">새로고침</button>
+        </div>
+    </div>
+
+    <script>
+        // DATA_INJECTION_PLACEHOLDER
+        // CONTEXT_INJECTION_PLACEHOLDER
+
+        function logger(msg) { console.log(`[PBA_DASHBOARD] ${new Date().toLocaleTimeString()} - ${msg}`); }
+        function id(n) { return document.getElementById(n); }
+
+        if (typeof Chart !== 'undefined') {
+            Chart.register(ChartDataLabels);
+            logger("Chart.js ready");
+        }
+        
+        // Show last update time
+        if (id('last-update') && typeof rawData !== 'undefined') {
+            id('last-update').innerText = `Last Update: ${rawData.generated_at}`;
+        }
+
+        function initNavigation() {
+            const nav = id('nav-sidebar');
+            if (typeof allLineIds === 'undefined') return;
+            if (typeof activeLineId === 'undefined' || activeLineId === null) id('nav-home').classList.add('active');
+
+            allLineIds.sort().forEach(lineId => {
+                const a = document.createElement('a');
+                a.href = `dashboard_${lineId}.html`;
+                a.className = `nav-item ${typeof activeLineId !== 'undefined' && activeLineId === lineId ? 'active' : ''}`;
+                a.innerHTML = `<span class="icon">L</span><span class="label" style="font-size:0.6rem;">${lineId}</span>`;
+                nav.appendChild(a);
+            });
+        }
+
+        function renderSidebarStats(data) {
+            const area = id('stats-area');
+            const rate = data.pass_rate;
+            
+            area.innerHTML = `
+                <div class="stat-card" style="padding: 1.5rem 1.25rem; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 220px;">
+                    <h3 style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 0.5rem; text-align: center; width: 100%; font-weight: 700;">PBA 전체 효율%</h3>
+                    <div style="font-size: 4.2rem; font-weight: 900; line-height: 1; letter-spacing: -2px; color: ${rate < 95 ? 'var(--danger)' : 'var(--primary)'}; margin: 0.5rem 0; text-shadow: 0 4px 12px rgba(0,0,0,0.05);">
+                        <span id="overall-efficiency">${data.efficiency.toFixed(2)}</span><span style="font-size: 1.8rem; font-weight: 700; color: var(--text-muted); margin-left: -2px;">%</span>
+                    </div>
+                </div>
+            `;
+        }
+
+        function renderOverview() {
+            id('overview-view').style.display = 'flex';
+            id('deep-dive-view').style.display = 'none';
+            id('nav-sidebar').style.display = 'flex';
+            id('sidebar').style.display = 'flex';
+            id('stats-area').style.display = 'block';
+            id('summary-card').style.display = 'flex';
+            
+            renderSidebarStats(rawData.overall);
+            id('overall-efficiency').innerText = (rawData.overall.efficiency || 0).toFixed(2);
+            
+            const labels = rawData.daily_averages.map(d => d.date);
+
+            // 1 & 4. Combined Main Chart (Production, Efficiency, Loss Rate)
+            new Chart(id('chart-main-combined').getContext('2d'), {
+                data: {
+                    labels: labels,
+                    datasets: [
+                        {
+                            type: 'bar',
+                            label: '생산수량 (EA)',
+                            data: rawData.daily_averages.map(d => d.qty),
+                            backgroundColor: 'rgba(99, 102, 241, 0.6)',
+                            borderRadius: 4,
+                            yAxisID: 'y'
+                        },
+                        {
+                            type: 'line',
+                            label: '공수효율 (%)',
+                            data: rawData.daily_averages.map(d => d.efficiency),
+                            borderColor: '#a855f7',
+                            borderWidth: 3,
+                            fill: false,
+                            tension: 0.4,
+                            yAxisID: 'y1',
+                            datalabels: { align: 'top', anchor: 'end', color: '#a855f7', formatter: (v) => v + '%' }
+                        },
+                        {
+                            type: 'line',
+                            label: '유실율 (%)',
+                            data: rawData.daily_averages.map(d => d.loss_rate),
+                            borderColor: '#ef4444',
+                            borderWidth: 2,
+                            pointRadius: 4,
+                            pointBackgroundColor: '#ef4444',
+                            fill: false,
+                            tension: 0.3,
+                            yAxisID: 'y2',
+                            datalabels: { align: 'bottom', anchor: 'start', color: '#ef4444', formatter: (v) => v + '%' }
+                        }
+                    ]
+                },
+                options: {
+                    maintainAspectRatio: false,
+                    interaction: { mode: 'index', intersect: false },
+                    plugins: { 
+                        datalabels: { 
+                            display: (ctx) => ctx.datasetIndex !== 0, // Show labels for Efficiency and Loss, hide for Bar
+                        },
+                        legend: { position: 'top', align: 'end' }
+                    },
+                    scales: { 
+                        y: { 
+                            position: 'left', 
+                            title: { display: true, text: '수량 (EA)', font: { size: 10, weight: 'bold' } },
+                            grid: { color: 'rgba(0,0,0,0.05)' }
+                        },
+                        y1: { 
+                            position: 'right', 
+                            min: 0, 
+                            title: { display: true, text: '효율 (%)', font: { size: 10, weight: 'bold' } },
+                            grid: { drawOnChartArea: false }
+                        },
+                        y2: { 
+                            position: 'right', 
+                            min: 0, 
+                            max: Math.max(...rawData.daily_averages.map(d => d.loss_rate), 1) + 1,
+                            title: { display: true, text: '유실율 (%)', font: { size: 10, weight: 'bold' } },
+                            grid: { drawOnChartArea: false },
+                            offset: true
+                        },
+                        x: { ticks: { font: { size: 9 }, maxRotation: 45 } }
+                    }
+                }
+            });
+
+            // 2. Manpower Chart
+            new Chart(id('chart-manpower').getContext('2d'), {
+                type: 'bar',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: '투입인원 (명)',
+                        data: rawData.daily_averages.map(d => d.manpower),
+                        backgroundColor: 'rgba(168, 85, 247, 0.6)',
+                        borderRadius: 4
+                    }]
+                },
+                options: {
+                    maintainAspectRatio: false,
+                    plugins: { 
+                        legend: { display: false },
+                        datalabels: { display: true, anchor: 'end', align: 'top' }
+                    },
+                    scales: { y: { beginAtZero: true }, x: { ticks: { font: { size: 8 } } } }
+                }
+            });
+
+            // 3. Productivity Chart
+            new Chart(id('chart-productivity').getContext('2d'), {
+                type: 'bar',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: '인당 생산수',
+                        data: rawData.daily_averages.map(d => d.prod_per_person),
+                        backgroundColor: 'rgba(16, 185, 129, 0.6)',
+                        borderRadius: 4
+                    }]
+                },
+                options: {
+                    maintainAspectRatio: false,
+                    plugins: { 
+                        legend: { display: false },
+                        datalabels: { display: true, anchor: 'end', align: 'top' }
+                    },
+                    scales: { y: { beginAtZero: true }, x: { ticks: { font: { size: 8 } } } }
+                }
+            });
+
+            const grid = id('sheets-grid');
+            rawData.lines.forEach((line, idx) => {
+                const card = document.createElement('div');
+                card.className = 'sheet-card';
+                card.onclick = () => window.location.href = `dashboard_${line.line_id}.html`;
+                card.innerHTML = `
+                    <div class="sheet-header">
+                        <div class="sheet-title">Line ${line.line_id}</div>
+                        <div class="badge" style="background:${line.pass_rate < 95 ? '#fee2e2':'#d1fae5'}; color:${line.pass_rate < 95 ? '#991b1b':'#065f46'}">
+                            ${line.pass_rate}%
+                        </div>
+                    </div>
+                    <div style="height: 60px;"><canvas id="mini-chart-${idx}"></canvas></div>
+                `;
+                grid.appendChild(card);
+                new Chart(id(`mini-chart-${idx}`).getContext('2d'), {
+                    type: 'line',
+                    data: {
+                        labels: line.trend.map(d => d.date),
+                        datasets: [{
+                            data: line.trend.map(d => d.pass_rate),
+                            borderColor: 'var(--primary)',
+                            tension: 0.4,
+                            pointRadius: 0,
+                            fill: true,
+                            backgroundColor: 'rgba(99, 102, 241, 0.05)'
+                        }]
+                    },
+                    options: { maintainAspectRatio: false, plugins: { legend: { display: false }, datalabels: { display: false } }, scales: { x: { display: false }, y: { display: false, min: 80, max: 105 } } }
+                });
+            });
+
+            const summaryTableBody = id('summary-table').querySelector('tbody');
+            summaryTableBody.innerHTML = '';
+            if (rawData.overall.summary_models) {
+                rawData.overall.summary_models.forEach(m => {
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td style="font-weight: 700; color: var(--primary);" title="${m.name}">${m.name}</td>
+                        <td style="color: var(--text-main);" title="${m.code}">${m.code}</td>
+                        <td style="font-weight: 700; color: var(--secondary);">${m.st.toFixed(2)}</td>
+                    `;
+                    summaryTableBody.appendChild(row);
+                });
+            }
+        }
+
+        function renderDeepDive(lineId) {
+            const line = rawData.lines.find(l => l.line_id === lineId);
+            if (!line) return;
+
+            id('nav-sidebar').style.display = 'none';
+            id('sidebar').style.display = 'none';
+            id('deep-dive-view').style.display = 'flex';
+            id('deep-dive-title').innerText = `Line ${lineId}`;
+            
+            // 1. Total Efficiency KPI
+            id('deep-dive-efficiency-title').innerText = `${lineId} 총 효율%`;
+            id('deep-dive-efficiency').innerText = (line.efficiency || 0).toFixed(2);
+            
+            // 2. Daily Efficiency Chart
+            const dailyCanvas = id('deep-dive-daily-trend-chart');
+            if (window.dailyChartInstance) window.dailyChartInstance.destroy();
+            window.dailyChartInstance = new Chart(dailyCanvas.getContext('2d'), {
+                type: 'line',
+                data: {
+                    labels: line.trend.map(d => d.date),
+                    datasets: [{
+                        label: '일자별 효율(%)',
+                        data: line.trend.map(d => d.efficiency),
+                        borderColor: 'var(--primary)',
+                        backgroundColor: 'rgba(99, 102, 241, 0.1)',
+                        fill: true,
+                        tension: 0.3, pointRadius: 4, pointBackgroundColor: '#fff', pointBorderWidth: 2
+                    }]
+                },
+                options: {
+                    maintainAspectRatio: false,
+                    plugins: { legend: { display: false }, datalabels: { display: true, align: 'top', font: { weight: 'bold' }, formatter: v => (+v).toFixed(1) + '%' } },
+                    scales: { y: { beginAtZero: false, min: 50 }, x: { grid: { display: false } } }
+                }
+            });
+
+            // (Model info table is now rendered inside renderHourlyChart to sync with selected date)
+
+            window.currentLineData = line;
+            const latestDate = line.trend.length > 0 ? line.trend[line.trend.length - 1].date : null;
+            renderHourlyChart(line, latestDate);
+
+            // 5. Daily Detailed Records
+            const recordBody = id('line-detail-table').querySelector('tbody');
+            recordBody.innerHTML = '';
+            line.trend.slice().reverse().forEach(d => {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td class="date-cell" style="font-weight:700;" onclick="renderHourlyChart(window.currentLineData, '${d.date}')">${d.date} 📊</td>
+                    <td style="font-weight:600;">${d.total.toLocaleString()}</td>
+                    <td style="font-weight:600;">${(d.std_labor||0).toFixed(2)}</td>
+                    <td style="font-weight:600;">${(d.actual_labor||0).toFixed(2)}</td>
+                    <td style="font-weight:700; color:var(--primary);">${d.efficiency.toFixed(2)}%</td>
+                `;
+                recordBody.appendChild(tr);
+            });
+        }
+
+        function renderModelTable(modelStats) {
+            const tbody = document.querySelector('#deep-dive-summary-table tbody');
+            tbody.innerHTML = '';
+            if (modelStats) {
+                modelStats.forEach(m => {
+                    const tr = document.createElement('tr');
+                    tr.innerHTML = `
+                        <td style="font-size:0.75rem; font-weight:700; color:var(--text-main); padding: 0.5rem 0.4rem;">${m.name}</td>
+                        <td style="font-size:0.7rem; color:var(--text-muted); padding: 0.5rem 0.4rem;">${m.code}</td>
+                        <td style="font-size:0.75rem; font-weight:600; padding: 0.5rem 0.4rem;">${m.st.toFixed(2)}</td>
+                        <td style="font-size:0.8rem; font-weight:600; padding: 0.5rem 0.4rem;">${(m.manpower||0).toFixed(1)}</td>
+                        <td style="font-size:0.8rem; font-weight:600; padding: 0.5rem 0.4rem;">${m.total.toLocaleString()}</td>
+                        <td style="font-size:0.8rem; font-weight:700; color:var(--primary); padding: 0.5rem 0.4rem;">${(m.efficiency||0).toFixed(2)}%</td>
+                    `;
+                    tbody.appendChild(tr);
+                });
+            }
+        }
+
+        function renderHourlyChart(line, filterDate) {
+            if (!line) return;
+            const hrCanvas = id('hourly-trend-chart');
+            const titleEl = id('deep-dive-hourly-title');
+            
+            const btnContainer = id('date-btn-container');
+            if (btnContainer) {
+                btnContainer.innerHTML = '';
+                const allBtn = document.createElement('button');
+                allBtn.className = `date-btn ${!filterDate ? 'active' : ''}`;
+                allBtn.innerText = '전체 보기';
+                allBtn.onclick = () => renderHourlyChart(line, null);
+                btnContainer.appendChild(allBtn);
+
+                line.trend.slice().reverse().forEach(d => {
+                    const btn = document.createElement('button');
+                    btn.className = `date-btn ${filterDate === d.date ? 'active' : ''}`;
+                    btn.innerText = d.date;
+                    btn.onclick = () => renderHourlyChart(line, d.date);
+                    btnContainer.appendChild(btn);
+                });
+            }
+
+            let data = line.hourly_trend || [];
+            if (filterDate) {
+                data = data.filter(d => d.time_slot.startsWith(filterDate));
+                if(titleEl) titleEl.innerText = `TIME당 생산실적 — ${filterDate}`;
+                
+                const dayStats = line.trend.find(t => t.date === filterDate);
+                renderModelTable(dayStats ? dayStats.model_stats : []);
+            } else {
+                if(titleEl) titleEl.innerText = `TIME당 생산실적 — 전체`;
+                renderModelTable(line.model_stats);
+            }
+
+            if (window.hourlyChartInstance) window.hourlyChartInstance.destroy();
+            
+            if (data.length > 0) {
+                window.hourlyChartInstance = new Chart(hrCanvas.getContext('2d'), {
+                    type: 'line',
+                    data: {
+                        labels: filterDate ? data.map(d => d.time_slot.replace(filterDate + ' ', '')) : data.map(d => d.time_slot),
+                        datasets: [{
+                            label: '효율 (%)',
+                            data: data.map(d => d.efficiency),
+                            yAxisID: 'y',
+                            type: 'line',
+                            borderColor: 'var(--primary)',
+                            backgroundColor: 'rgba(99, 102, 241, 0.1)',
+                            fill: true, tension: 0.3, pointRadius: 4, pointBackgroundColor: '#fff', pointBorderWidth: 2,
+                            order: 1,
+                            datalabels: { display: false }
+                        }, {
+                            label: '생산량 (수량)',
+                            data: data.map(d => d.total),
+                            yAxisID: 'y1',
+                            type: 'bar',
+                            backgroundColor: 'rgba(168, 85, 247, 0.7)',
+                            borderRadius: 4,
+                            order: 2,
+                            datalabels: { 
+                                display: true, 
+                                align: 'top', 
+                                font: { weight: 'bold', size: 10 }, 
+                                formatter: (v, ctx) => [v.toLocaleString(), data[ctx.dataIndex].efficiency.toFixed(1) + '%'], 
+                                color: 'var(--text-main)',
+                                textAlign: 'center'
+                            }
+                        }]
+                    },
+                    options: {
+                        maintainAspectRatio: false,
+                        interaction: { mode: 'index', intersect: false },
+                        plugins: { legend: { position: 'top', align: 'end' } },
+                        scales: {
+                            x: { grid: { color: 'rgba(0,0,0,0.05)' } },
+                            y: { type: 'linear', display: true, position: 'left', min: 70, max: 100, grid: { color: 'rgba(0,0,0,0.05)' } },
+                            y1: { type: 'linear', display: true, position: 'right', min: 0, grid: { drawOnChartArea: false } }
+                        }
+                    }
+                });
+            } else {
+                hrCanvas.getContext('2d').clearRect(0, 0, hrCanvas.width, hrCanvas.height);
+            }
+        }
+
+        function toggleTheme() {
+            const isDark = document.body.classList.toggle('dark-theme');
+            id('theme-icon').innerText = isDark ? '☀️' : '🌙';
+            localStorage.setItem('ft1_theme', isDark ? 'dark' : 'light');
+        }
+
+        (function() {
+            const saved = localStorage.getItem('ft1_theme');
+            if (saved === 'dark') {
+                document.body.classList.add('dark-theme');
+                const btn = id('theme-icon');
+                if (btn) btn.innerText = '☀️';
+            }
+        })();
+
+        function triggerUpdate() {
+            // Show update instructions modal
+            const modal = document.getElementById('update-guide-modal');
+            if (modal) modal.classList.add('open');
+        }
+
+        function closeUpdateGuideModal() {
+            const modal = document.getElementById('update-guide-modal');
+            if (modal) modal.classList.remove('open');
+        }
+
+        function reloadAfterUpdate() {
+            closeUpdateGuideModal();
+            location.reload();
+        }
+
+        try {
+            if (typeof rawData === 'undefined') throw new Error("Data Error: rawData is not defined");
+            initNavigation();
+            if (typeof activeLineId !== 'undefined' && activeLineId !== null) renderDeepDive(activeLineId);
+            else renderOverview();
+        } catch (e) {
+            id('error-overlay').style.display = 'flex';
+            id('error-message').innerText = e.message;
+        }
+        function showFailModal(date) {
+            if (!window.currentLineData) return;
+            const dayData = window.currentLineData.trend.find(d => d.date === date);
+            if (!dayData || !dayData.fail_details) {
+                alert("불량 상세 정보가 없습니다.");
+                return;
+            }
+
+            const title = document.getElementById('fail-modal-title');
+            title.innerText = `${window.currentLineData.line_id} - ${date} 불량 분석`;
+
+            const body = document.getElementById('fail-modal-body');
+            let html = '';
+
+            // 1. Models Section
+            html += `
+                <div class="modal-model-section">
+                    <h3 class="modal-model-title">📦 모델별 불량 현황</h3>
+                    <table>
+                        <thead>
+                            <tr><th style="text-align:left;">모델명</th><th>수량</th></tr>
+                        </thead>
+                        <tbody>
+            `;
+            for (const [m, count] of Object.entries(dayData.fail_details.models)) {
+                html += `<tr><td style="text-align:left; font-size:0.8rem;">${m}</td><td style="font-weight:700; color:var(--danger);">${count}</td></tr>`;
+            }
+            html += `</tbody></table></div>`;
+
+            // 2. steps/Locations Section
+            html += `
+                <div class="modal-model-section">
+                    <h3 class="modal-model-title">📍 주요 불량 로케이션 (Test Items)</h3>
+                    <div style="padding: 0.5rem 0;">
+            `;
+            const steps = dayData.fail_details.steps;
+            const maxCount = Math.max(...Object.values(steps), 1);
+
+            for (const [step, count] of Object.entries(steps)) {
+                const pct = (count / maxCount) * 100;
+                html += `
+                    <div class="step-bar-row">
+                        <div class="step-bar-label" title="${step}">${step}</div>
+                        <div class="step-bar-track"><div class="step-bar-fill" style="width: ${pct}%"></div></div>
+                        <div class="step-bar-count">${count}</div>
+                    </div>
+                `;
+            }
+            html += `</div></div>`;
+
+            body.innerHTML = html;
+            document.getElementById('fail-modal').classList.add('open');
+        }
+
+        function closeFailModal() {
+            document.getElementById('fail-modal').classList.remove('open');
+        }
+
+        // Close modal on outside click
+        window.onclick = function(event) {
+            const modal = document.getElementById('fail-modal');
+            if (event.target == modal) {
+                closeFailModal();
+            }
+        }
+    </script>
+</body>
+</html>
