@@ -1,0 +1,14 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Data & Large Files
+~$*.xlsx
+PBA 실적.xlsx
+pba_analysis_results.json
+pba_final_analysis.json
+pba_sample_rows.json
+
+# Web
+.DS_Store
